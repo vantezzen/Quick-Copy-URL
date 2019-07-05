@@ -24,3 +24,9 @@ You can also install this extension on Firefox by downloading the source from Gi
 Please fork this repository and create a new pull request to contribute to it.
 
 If you notice any errors, please create a new issue on GitHub.
+
+# Attribution
+This extension uses the feathericons `link` icon, licensed under the MIT license, viewable at https://github.com/feathericons/feather/blob/master/LICENSE
+
+# License
+Quick copy URL is licensed under the MIT License.
