@@ -15,11 +15,13 @@ const copyUrlToClipboard = () => {
     // Copy URL to clipboard
     navigator.clipboard.writeText(url)
       .then(() => {
+        chrome.runtime.sendMessage('success');
         console.debug('Text copied to clipboard');
 
         window.close();
       })
       .catch(err => {
+        chrome.runtime.sendMessage('failed');
         console.debug('Could not copy text: ', err);
 
         window.close();
@@ -36,6 +38,7 @@ if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
     if (result.state == "granted" || result.state == "prompt") {
       copyUrlToClipboard();
     } else {
+      chrome.runtime.sendMessage('failed');
       // User has not granted access to the clipboard - abort
       console.debug('Cannot use clipboard');
   
