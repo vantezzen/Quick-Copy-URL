@@ -5,32 +5,46 @@ const setIcon = (type) => {
       48: `../icons/${type}-48.png`,
     }
   });
-
-  setTimeout(() => {
-    chrome.browserAction.setIcon({
-      path: {
-        32: '../icons/icon-32.png',
-        48: '../icons/icon-48.png',
-      }
-    });
-  }, 500);
 };
+
+const animateIcon = (type) => {
+  if (type !== 'success' && type !== 'failed') {
+    console.debug(`Invalid icon animation "${type}".`);
+    return;
+  }
+
+  // Animate in
+  setIcon(`${type}/1`);
+  setTimeout(() => {
+    setIcon(`${type}/2`);
+  }, 50);
+  setTimeout(() => {
+    setIcon(`${type}/3`);
+  }, 100);
+
+  // Animate out
+  setTimeout(() => {
+    setIcon(`${type}/2`);
+  }, 450);
+  setTimeout(() => {
+    setIcon(`${type}/1`);
+  }, 500);
+  setTimeout(() => {
+    setIcon('icon');
+  }, 550);
+}
 
 const copyUrlToClipboard = () => {
   // Get current page url
-  try {
-    chrome.tabs.query({currentWindow: true, active: true}, tabs => {
-      console.log('TABS', tabs);
-      chrome.tabs.sendMessage(tabs[0].id, 'copy', (type) => {
-        if (type) {
-          setIcon(type);
-        }
-      });
+  chrome.tabs.query({currentWindow: true, active: true}, tabs => {
+    chrome.tabs.sendMessage(tabs[0].id, 'copy', (type) => {
+      if (type) {
+        animateIcon(type);
+      } else {
+        animateIcon('failed');
+      }
     });
-  } catch (e) {
-    console.debug('Could not copy URL', e);
-    setIcon('failed');
-  }
+  });
 }
 
 chrome.runtime.onMessage.addListener(
@@ -38,7 +52,7 @@ chrome.runtime.onMessage.addListener(
     if (type === "copy") {
       copyUrlToClipboard();
     } else {
-      setIcon(type);
+      animateIcon(type);
     }
   }
 );
@@ -49,3 +63,7 @@ chrome.commands.onCommand.addListener(function (command) {
     copyUrlToClipboard();
   }
 });
+
+window.onerror = () => {
+  animateIcon('failed');
+}
