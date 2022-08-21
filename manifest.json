@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Quick Copy URL",
-  "version": "1.2",
+  "version": "1.3",
 
   "description": "Quickly copy the URL of your current tab with a click",
   "homepage_url": "https://github.com/vantezzen/quick-copy-url",
