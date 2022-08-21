@@ -1,19 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Copying URL</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Copying URL</title>
 
-  <style>
-    * {
-      width: 0px;
-      height: 0px;
-    }
-  </style>
-</head>
-<body>
-  <script src="main.js"></script>
-</body>
+    <style>
+      body {
+        padding: 15px;
+      }
+
+      .loading-indicator-spinner {
+        display: inline-block;
+        width: 1rem;
+        height: 1rem;
+        border-radius: 50%;
+        border: 2px solid #ccc;
+        border-top-color: #39475c;
+        animation: loading-indicator-spin 1s linear infinite;
+      }
+      @keyframes loading-indicator-spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="loading-indicator">
+      <div class="loading-indicator-spinner"></div>
+    </div>
+
+    <script src="main.js"></script>
+  </body>
 </html>

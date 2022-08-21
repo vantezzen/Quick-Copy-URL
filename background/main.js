@@ -3,12 +3,12 @@ const setIcon = (type) => {
     path: {
       32: `../icons/${type}-32.png`,
       48: `../icons/${type}-48.png`,
-    }
+    },
   });
 };
 
 const animateIcon = (type) => {
-  if (type !== 'success' && type !== 'failed') {
+  if (type !== "success" && type !== "failed") {
     console.debug(`Invalid icon animation "${type}".`);
     return;
   }
@@ -30,40 +30,21 @@ const animateIcon = (type) => {
     setIcon(`${type}/1`);
   }, 500);
   setTimeout(() => {
-    setIcon('icon');
+    setIcon("icon");
   }, 550);
-}
+};
 
-const copyUrlToClipboard = () => {
-  // Get current page url
-  chrome.tabs.query({currentWindow: true, active: true}, tabs => {
-    chrome.tabs.sendMessage(tabs[0].id, 'copy', (type) => {
-      if (type) {
-        animateIcon(type);
-      } else {
-        animateIcon('failed');
-      }
-    });
-  });
-}
-
-chrome.runtime.onMessage.addListener(
-  (type) => {
-    if (type === "copy") {
-      copyUrlToClipboard();
-    } else {
-      animateIcon(type);
-    }
-  }
-);
+chrome.runtime.onMessage.addListener((type) => {
+  animateIcon(type);
+});
 
 chrome.commands.onCommand.addListener(function (command) {
   if (command === "copy-url") {
     console.log("Received shortcut");
-    copyUrlToClipboard();
+    chrome.browserAction.openPopup();
   }
 });
 
 window.onerror = () => {
-  animateIcon('failed');
-}
+  animateIcon("failed");
+};
